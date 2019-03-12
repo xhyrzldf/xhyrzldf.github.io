@@ -7,6 +7,13 @@
     </url>
     
     <url>
+        <loc>http://yoursite-url/readme.html</loc>
+        <lastmod>2019-03-12T16:32:03.058Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
         <loc>http://yoursite-url/tags/</loc>
         <lastmod>2019-03-12T06:59:24.463Z</lastmod>
         <changefreq>weekly</changefreq>
