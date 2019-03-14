@@ -130,7 +130,8 @@
 
 <!-- Content -->
 <blockquote>
-<p>光有好奇心而不去實踐，等於自願放棄成功機會<br>別為自己畫地自限，Just Do It！！</p>
+<p>光有好奇心而不去實踐，等於自願放棄成功機會<br>
+別為自己畫地自限，Just Do It！！</p>
 </blockquote>
 
 
@@ -211,6 +212,21 @@
 <!-- Disqus Comments -->
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
