@@ -215,14 +215,29 @@
 
 <!-- Comments -->
 <!--PC版-->
-<div id="SOHUCS"></div>
-<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+<!-- <div id="SOHUCS" ></div>
+<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
 <script type="text/javascript">
 window.changyan.api.config({
 appid: 'cyu87j9If',
 conf: 'prod_7793045929c2d4705abb93f9559a3431'
 });
+</script> -->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'XBbe3mT3faVP4ylUzetNkr2J-gzGzoHsz',
+        appKey: 'GMD7WwaidgmXqvH1u1eXxFpC',
+        notify:false, 
+        verify:false, 
+        avatar:'monsterid', 
+        placeholder: '在这里写下你关于<Matrix>文章的评论吧~' 
+    })
 </script>
+
 <!-- <div>
     
 
