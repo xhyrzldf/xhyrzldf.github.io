@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Description-->
+    
+        <meta name="description" content="Java 函数式编程 博客">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Matrix">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="在gitlab中使用release功能发布版本">
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Matrix World">
+
+    <!--Page Cover-->
+    
+        <meta property="og:image" content="undefined">
+    
+
+    <!-- Title -->
+    
+    <title>在gitlab中使用release功能发布版本 - Matrix World</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/sass/main.css">
+
+    <!--[if lt IE 8]>
+        <script src="/js/ie/html5shiv.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" href="/sass/ie8.css">
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="/sass/ie9.css">
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.css" type="text/css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-136106299-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Menu -->
+        <!-- Header -->
+<header id="header">
+    <div class="inner">
+
+        <!-- Logo -->
+        <a href="/" class="logo">
+            <span class="symbol"><img src="/img/logo.svg" alt></span><span class="title">Matrix World</span>
+        </a>
+
+        <!-- Nav -->
+        <nav>
+            <ul>
+                <li><a href="#menu">Menu</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+    <h2>Menu</h2>
+    <ul>
+        
+            <li>
+                <a href="/">Home</a>
+            </li>
+        
+            <li>
+                <a href="/archives">Archives</a>
+            </li>
+        
+            <li>
+                <a href="/about.html">About</a>
+            </li>
+        
+    </ul>
+</nav>
+
+
+        <div id="main">
+            <div class="inner">
+
+                <!-- Main Content -->
+                
+
+    <h1>在gitlab中使用release功能发布版本</h1>
+
+
+    <span class="image main"><img src="/img/在gitlab中使用release功能发布版本-detail.jpg" alt></span>
+
+
+<!-- Gallery -->
+
+
+<!-- Content -->
+<div class="toc">
+
+<!-- toc -->
+<ul>
+<li><a href="#jian-shu">简述</a></li>
+<li><a href="#release-jie-gou">release结构</a></li>
+<li><a href="#api-wen-dang-zhong-xu-yao-zhu-yi-de-ji-dian">API文档中需要注意的几点</a><ul>
+<li><a href="#private-token">private-token</a></li>
+<li><a href="#assets">assets</a></li>
+<li><a href="#description">description</a></li>
+<li><a href="#zui-hou">最后</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+</div>
+
+<h1><span id="jian-shu">简述</span></h1><p>在Gitlab 11.7版本后，正式加入了release模块，可以将已经成型的项目进行发布，提供源代码或是下载包供访问者下载，如下图。本文讲述如何使用这一功能。<br><img src="1.jpg" alt="20ceedd1e89bb466279543547382e970.png"></p>
+<h1><span id="release-jie-gou">release结构</span></h1><p>一份完成的release应当包含如下结构</p>
+<ul>
+<li>release的版本号使用Git tag标签绑定</li>
+<li>release的名称</li>
+<li>release的说明</li>
+<li>release所包含的供用户下载的文件</li>
+<li>对应release的项目源代码</li>
+</ul>
+<p>因此，想要完成一次发布，需要具备以上的元素。</p>
+<h1><span id="api-wen-dang-zhong-xu-yao-zhu-yi-de-ji-dian">API文档中需要注意的几点</span></h1><p>release的发布是借助restapi进行的,release api相关的文档<a href="https://docs.gitlab.com/ee/api/releases/#releases-api" target="_blank" rel="noopener">gitlab release document</a><br>其中create release的api如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span></span><br><span class="line">--header 'Content-Type: application/json' --header "PRIVATE-TOKEN: gDybLx3yrUK_HLp3qPjS"</span><br><span class="line">--data '&#123; "name": "New release", "tag_name": "v0.3", "description": "Super nice release", "assets": &#123; "links": [&#123; "name": "hoge", "url": "https://google.com" &#125;] &#125; &#125;'</span><br><span class="line">--request POST http://localhost:3000/api/v4/projects/24/releases</span><br></pre></td></tr></table></figure>
+<p>其中<code>name</code>,<code>tag_name</code>这些参看文档即可知道是上面所提到的release的名称，标签名称等，这里需要特别讲的是关于header里的<code>PRIVATE-TOKEN</code> 与data里的<code>assets</code> <code>description</code>这三个元素。</p>
+<h2><span id="private-token">private-token</span></h2><p>这是访问gitlab-repository的api所需要的一个令牌，可以在用户Settings里找到<code>personal access token</code>然后进行生成，需要注意的是，生成之后的token自己最好记下来，因为后面你无法在其他地方看到这个token了。<br><img src="2.jpg" alt="cb85c4f2e607b6f450d15bbf52f2de33.png"></p>
+<h2><span id="assets">assets</span></h2><p>从官方文档的例子中看到例子用到的参数如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"assets"</span>: &#123;</span><br><span class="line">        <span class="attr">"links"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"hoge"</span>,</span><br><span class="line">                <span class="attr">"url"</span>: <span class="string">"https://google.com"</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的参数指的是release所提供的额外的文件，release会自动生成项目对应tag下的源代码压缩包，但是有时候项目想提供给用户的是编译好的或者是处理好的可执行文件，这时候就需要提供额外的下载链接给用户，该api就是用来控制额外的文件的。<code>name</code>是文件名称，<code>url</code>是指下载路径，如下图。<br><img src="3.jpg" alt="0639034d800c550b55e16201c65a08ef.png"></p>
+<p>问题来了,这个<code>url</code>按照猜想应当是gitlab服务器中某个文件的地址,并且开放了接口可以让用户自己上传，于是查阅了相关资料，果然是这样的，文档<a href="https://docs.gitlab.com/ee/api/projects.html#upload-a-file" target="_blank" rel="noopener">在这里</a>。</p>
+<p>通过<code>upload</code>api成功上传后会得到一个相对路径，如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"alt"</span>: <span class="string">"dk"</span>,</span><br><span class="line">  <span class="attr">"url"</span>: <span class="string">"/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png"</span>,</span><br><span class="line">  <span class="attr">"markdown"</span>: <span class="string">"![dk](/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png)"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>release</code>的api中需要提供以http/https开头的完整路径，否则校验会不通过。因此需要在<code>create release</code>中需要在这段相对路径前加上完整的路径，例如<br><img src="4.jpg" alt="9f5d12423c3e9afbd5a12c4c8f8be89c.png"></p>
+<h2><span id="description">description</span></h2><p>这里的描述指的是release中的详细说明，支持<code>markdown</code>语法，因此建议大家使用markdown编写changelog之类的内容。</p>
+<h2><span id="zui-hou">最后</span></h2><p>在官方提供的相关api里，其中路径需要注意<code>api/version</code>例如笔者测试的11.8社区版api的版本为v4,那么一份标准路径应当是<code>http://example.com/api/v4/projects/:project-id/xxxxx</code>。</p>
+<p>到这里我认为比较容易花费时间去理解的几个参数都已经讲完了，剩下的按照文档里的内容对<code>release</code>进行CURD相关的api操作即可。</p>
+
+
+<!-- Tags -->
+
+
+
+<div class="tags">
+    <a href="/tags/Gitlab/" class="button small">Gitlab</a>
+</div>
+
+
+
+<!-- Comments -->
+<!--PC版-->
+<!-- <div id="SOHUCS" ></div>
+<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+<script type="text/javascript">
+window.changyan.api.config({
+appid: 'cyu87j9If',
+conf: 'prod_7793045929c2d4705abb93f9559a3431'
+});
+</script> -->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'XBbe3mT3faVP4ylUzetNkr2J-gzGzoHsz',
+        appKey: 'GMD7WwaidgmXqvH1u1eXxFpC',
+        notify:false, 
+        verify:false, 
+        avatar:'monsterid', 
+        visitor: true,
+        placeholder: '在这里写下你关于<Matrix>文章的评论吧~' 
+    })
+</script>
+
+<!-- <div>
+    
+
+
+</div> -->
+
+
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <section>
+            <h2>About</h2>
+            <div>
+                
+            </div>
+        </section>
+        <section>
+            <h2>Follow</h2>
+            <ul class="icons">
+                
+                    <li><a href="https://twitter.com/?lang=en" class="icon style2 fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+                
+                
+                    <li><a href="https://www.facebook.com/" class="icon style2 fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
+                
+                
+                
+                
+                    <li><a href="https://github.com/xhyrzldf" class="icon style2 fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                
+                
+                    <li><a href="https://plus.google.com/" class="icon style2 fa-google-plus" target="_blank"><span class="label">Google+</span></a></li>
+                
+                
+                
+                
+                
+            </ul>
+        </section>
+        <ul class="copyright">
+            <li>&copy; Untitled. All rights reserved</li>
+            <li>Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>
+            <li>Hexo: <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></li>
+        </ul>
+    </div>
+</footer>
+    </div>
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- skel -->
+<script src="/js/skel.min.js"></script>
+
+<!-- Custom Code -->
+<script src="/js/util.js"></script>
+
+<!--[if lte IE 8]>
+<script src="/js/ie/respond.min.js"></script>
+<![endif]-->
+
+<!-- Custom Code -->
+<script src="/js/main.js"></script>
+
+<!-- Gallery -->
+<script src="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
